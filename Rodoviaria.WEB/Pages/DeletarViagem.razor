@@ -1,0 +1,83 @@
+﻿@page "/deletarviagem/{viagemId:int}"
+@inject IViagemService viagemService
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JsRuntime
+
+
+<h3>Apagar Viagem</h3>
+<hr />
+
+<div class="form-group">
+    <table>
+        <tr>
+            <td>Destino: </td>
+            <td>@viagem.destino</td>
+        </tr>
+        <tr>
+            <td>Data Partida: </td>
+            <td>@viagem.dataPartida</td>
+        </tr>
+        <tr>
+            <td>Preço: </td>
+            <td>@viagem.preco</td>
+        </tr>
+        <tr>
+            <td>Lugares Livres: </td>
+            <td>@viagem.lugaresLivres</td>
+        </tr>
+        <tr>
+            <td>Gratuidades: </td>
+            <td>@viagem.gratuidades</td>
+        </tr>
+    </table>
+    <div class="form-group">
+        <input type="button" class="btn btn-primary" @onclick="@ApagaViagem" value="Apagar" />
+        <input type="button" class="btn btn-link" @onclick="@Cancela" value="Cancelar" />
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public int viagemId { get; set; }
+
+    ViagemResponse? V = new ViagemResponse();
+    ViagemResponse viagem = new ViagemResponse();
+
+    protected override async Task OnInitializedAsync()
+    {
+        V = await viagemService.GetViagem(viagemId);
+        if (V == null)
+        {
+            await JsRuntime.InvokeVoidAsync("alert", "Não foi possível localizar a viagem!");
+            NavigationManager.NavigateTo("viagens");
+        }
+        else
+        {
+            viagem = V;
+        }
+    }
+
+    void Cancela()
+    {
+        NavigationManager.NavigateTo("viagens");
+    }
+
+    protected async Task ApagaViagem()
+    {
+        bool confirmar = await JsRuntime.InvokeAsync<bool>("confirm", "Deseja realmente apagar a viagem?");
+
+        if (confirmar)
+        {
+            int result = await viagemService.DeleteViagem(viagemId);
+            if (result == 1)
+            {
+                await JsRuntime.InvokeVoidAsync("alert", "Não foi possível apagar a viagem!");
+            }
+            else
+            {
+                await JsRuntime.InvokeVoidAsync("alert", "Viagem removida com sucesso!");
+                NavigationManager.NavigateTo("viagens");
+            }
+        }
+    }
+}

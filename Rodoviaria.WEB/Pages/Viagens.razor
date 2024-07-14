@@ -1,0 +1,53 @@
+﻿@page "/viagens"
+@inject IViagemService viagemService
+
+<h3>Viagens</h3>
+<hr />
+<p>
+    <a href="/novaviagem">Nova Viagem</a>
+</p>
+<hr />
+@if (viagens == null)
+{
+    <h4>Carregando...</h4>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Destino</th>
+                <th>Data Partida</th>
+                <th>Lugares Livres</th>
+                <th>Gratuídades</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var viagem in viagens)
+            {
+                <tr>
+                    <td>@viagem.viagemId</td>
+                    <td>@viagem.destino</td>
+                    <td>@viagem.dataPartida</td>
+                    <td>@viagem.lugaresLivres</td>
+                    <td>@viagem.gratuidades</td>
+                    <td><a href="/editarviagem/@viagem.viagemId">Atualizar</a></td>
+                    <td><a href="/deletarviagem/@viagem.viagemId">Remover</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+@code {
+    IEnumerable<ViagemResponse> viagens;
+
+    protected override async Task OnInitializedAsync()
+    {
+        viagens = await viagemService.GetViagens();
+    }
+}

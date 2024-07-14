@@ -1,0 +1,70 @@
+﻿@page "/novaviagem"
+@inject IViagemService viagemService
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JsRuntime
+
+<h3>Nova Viagem</h3>
+<hr />
+<form>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="form-group">
+                <label for="origem" class="control-label">Origem da Viagem: </label>
+                <input for="origem" class="form-control" @bind="@viagem.origem" />
+            </div>
+            <div class="form-group">
+                <label for="destino" class="control-label">Destino da Viagem: </label>
+                <input for="destino" class="form-control" @bind="@viagem.destino" />
+            </div>
+            <div class="form-group">
+                <label for="dataPartida" class="control-label">Data de Partida: </label>
+                <input for="dataPartida" class="form-control" @bind="@viagem.dataPartida" />
+            </div>
+            <div class="form-group">
+                <label for="dataChegada" class="control-label">Data de Chegada: </label>
+                <input for="dataChegada" class="form-control" @bind="@viagem.dataChegada" />
+            </div>
+            <div class="form-group">
+                <label for="preco" class="control-label">Preço: </label>
+                <input for="preco" class="form-control" @bind="@viagem.preco" />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <input type="button" class="btn btn-primary" @onclick="@CriaViagem" value="Salvar" />
+                <input type="button" class="btn btn-link" @onclick="@Cancela" value="Cancelar" />
+            </div>
+        </div>
+    </div>
+</form>
+
+
+@code {
+    ViagemRequest viagem = new ViagemRequest();
+
+    protected async Task CriaViagem()
+    {
+        bool confirmar = await JsRuntime.InvokeAsync<bool>("confirm", "Deseja realmente criar a viagem?");
+
+        if(confirmar)
+        {
+            int result = await viagemService.PostViagem(viagem);
+            if (result == 1)
+            {
+                await JsRuntime.InvokeVoidAsync("alert", "Não foi possível cadastrar a viagem!");
+            }
+            else
+            {
+                await JsRuntime.InvokeVoidAsync("alert", "Viagem cadastrada com sucesso!");
+                NavigationManager.NavigateTo("viagens");
+            }
+        }
+    }
+
+    void Cancela()
+    {
+        NavigationManager.NavigateTo("viagens");
+    }
+}

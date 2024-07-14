@@ -1,0 +1,67 @@
+﻿@page "/vendapassagem"
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JsRuntime
+@inject IPassagemService passagemService
+
+<h3>Vender Passagem</h3>
+<hr />
+<form>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="form-group">
+                <label for="passageiro" class="control-label">Nome do Passageiro: </label>
+                <input for="passageiro" class="form-control" @bind="@passagem.passageiro" />
+            </div>
+            <div class="form-group">
+                <label for="cpf" class="control-label">CPF: </label>
+                <input for="cpf" class="form-control" @bind="@passagem.cpf" />
+            </div>
+            <div class="form-group">
+                <label for="rg" class="control-label">Documento Identidade: </label>
+                <input for="rg" class="form-control" @bind="@passagem.rg" />
+            </div>
+            <div class="form-group">
+                <label for="tipoId" class="control-label">Tipo de Passagem: </label>
+                <input for="tipoId" class="form-control" @bind="@passagem.tipoId" />
+            </div>
+            <div class="form-group">
+                <label for="viagemId" class="control-label">Identificador da Viagem: </label>
+                <input for="viagemId" class="form-control" @bind="@passagem.viagemId" />
+            </div>
+            <div class="form-group">
+                <label for="cadeira" class="control-label">Cadeira: </label>
+                <input for="cadeira" class="form-control" @bind="@passagem.cadeira" />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <input type="button" class="btn btn-primary" @onclick="@VendePassagem" value="Vender" />
+                <input type="button" class="btn btn-link" @onclick="@Cancela" value="Cancelar" />
+            </div>
+        </div>
+    </div>
+</form>
+
+
+@code {
+    PassagemRequest passagem = new PassagemRequest();
+
+    protected async Task VendePassagem()
+    {
+        bool confirmar = await JsRuntime.InvokeAsync<bool>("confirm", "Deseja realmente vender a passagem?");
+
+        if (confirmar)
+        {
+            string result = await passagemService.PostPassagem(passagem);
+            await JsRuntime.InvokeVoidAsync("alert", result);
+            NavigationManager.NavigateTo("/");
+        }
+    }
+
+    void Cancela()
+    {
+        NavigationManager.NavigateTo("/");
+    }
+}

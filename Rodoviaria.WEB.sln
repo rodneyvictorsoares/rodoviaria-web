@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32929.385
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rodoviaria.WEB", "Rodoviaria.WEB\Rodoviaria.WEB.csproj", "{94CE3B80-FD3A-45F6-B58B-556AFF6E77ED}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{94CE3B80-FD3A-45F6-B58B-556AFF6E77ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94CE3B80-FD3A-45F6-B58B-556AFF6E77ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94CE3B80-FD3A-45F6-B58B-556AFF6E77ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94CE3B80-FD3A-45F6-B58B-556AFF6E77ED}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4850C854-F279-495B-8037-CAE694DBD14C}
+	EndGlobalSection
+EndGlobal
