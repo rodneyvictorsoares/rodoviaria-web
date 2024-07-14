@@ -1,0 +1,1 @@
+Exemplo muito simples de aplicação usando razor pages para uma aplicação de vendas de passagem rodoviárias. O mesmo foi usado durante as aulas ministradas na disciplina Introdução a Programação Orientada a Objetos.
